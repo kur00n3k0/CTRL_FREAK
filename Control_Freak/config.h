@@ -21,8 +21,8 @@
 #define FIRMWARE_FILE "/firmware.bin"
 
 // nRF24-specific Pins
-#define NRF_CE_PIN_A    5   
-#define NRF_CSN_PIN_A   17 
+#define NRF_CE_PIN_A    5
+#define NRF_CSN_PIN_A   17
 #define NRF_CE_PIN_B    16  
 #define NRF_CSN_PIN_B   4  
 #define NRF_CE_PIN_C    15  

@@ -100,9 +100,9 @@ void conf() {
   u8g2.sendBuffer();
   delay(3000);
   u8g2.clearBuffer();
-  u8g2.drawXBMP(0, 0, 128, 64, cred); 
+  u8g2.drawXBMP(0, 0, 128, 64, neko);
   u8g2.sendBuffer();
-  delay(250);
+  delay(1000);
 }
 
 namespace Setting {

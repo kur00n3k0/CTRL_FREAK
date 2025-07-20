@@ -1,7 +1,8 @@
 /* ____________________________
    This software is licensed under the MIT License:
    https://github.com/cifertech/nrfbox
-   ________________________________________ */
+   ________________________________________ 
+*/
 
 #include "icon.h"
 #include "setting.h"
@@ -131,7 +132,7 @@ bool readButton(int pin) {
 
 void setup() {
   Serial.begin(115200);
-  neopixelSetup();
+  neopixelSetup(); // Try to map it to a normal RGB LED.
   initAllRadios();
   EEPROM.begin(512);
   oledBrightness = EEPROM.read(1);

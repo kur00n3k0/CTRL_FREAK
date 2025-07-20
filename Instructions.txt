@@ -1,0 +1,46 @@
++-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-+
+| Upload Sketch via Arduino IDE                               |
+| Compile and upload the nRFBOX sketch for customization.     |
++-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-+
+
+=== What You’ll Need ===
+
+[+] nRFBOX with USB-C/micro-USB port.
+[+] Computer with Arduino IDE (2.x or 1.8.x).
+[+] USB cable.
+[+] nRFBOX sketch, platform.txt from the nRFBOX GitHub repository.
+
+== Steps ==
+
+Install Arduino IDE and ESP32 Board Package:
+  - Install the Arduino IDE.
+  - Go to Tools > Board > Boards Manager, search “esp32,” and install esp32 by Espressif Systems (version 2.0.10).
+  - Replace platform.txt:
+      - Download platform.txt from the repository.
+      - Back up the original.
+      - Replace the file in:
+          Windows: C:\Users\<YOUR_USERNAME>\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.10
+          macOS: ~/Library/Arduino15/packages/esp32/hardware/esp32\2.0.10
+          Linux: ~/.arduino15/packages/esp32/hardware/esp32\2.0.10
+  
+  * You will also need to download the libraries for the OLED display, NeoPixel and RF24.
+
+Download and Open Sketch:
+  - Download the .ino sketch from the repository and open it in the IDE.
+
+Configure Arduino IDE Settings:
+  - Connect the nRFBOX via USB.
+  - Select Tools > Board > ESP32 Dev Module and the correct Port.
+  - Configure based on flash size:
+      - Partition Scheme: Minimal SPIFFS.
+      - Flash Size: 4MB.
+      - Optional: Set Upload Speed to 921600, CPU Frequency to 240 MHz.
+
+Compile and Upload:
+  - Click Verify to compile. Fix any errors.
+  - Click Upload. Enter Download Mode if prompted (hold BOOT, press RESET, release both).
+  - Wait for “Done uploading.”
+
+Verify Upload:
+  - Check the Oled display or Serial Monitor (115200 baud).
+  - If it fails, verify settings, port, or Download Mode.
