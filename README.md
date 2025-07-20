@@ -1,38 +1,17 @@
 <div align="center">
-
-  <img src="https://user-images.githubusercontent.com/62047147/195847997-97553030-3b79-4643-9f2c-1f04bba6b989.png" alt="logo" width="100" height="auto" />
-  
-  <h1> nRFBOX </h1>
-  <p> All-in-One Gadget for BLE and 2.4GHz Networks </p>
-
-
-<!-- Badges -->
-<a href="https://github.com/cifertech/nrfbox" title="Go to GitHub repo"><img src="https://img.shields.io/static/v1?label=cifertech&message=nrfbox&color=purple&logo=github" alt="cifertech - nrfbox"></a>
-![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/cifertech/nrfbox/total)
-<a href="https://github.com/cifertech/nrfbox"><img src="https://img.shields.io/github/stars/cifertech/nrfbox?style=social" alt="stars - nrfbox"></a>
-<a href="https://github.com/cifertech/nrfbox"><img src="https://img.shields.io/github/forks/cifertech/nrfbox?style=social" alt="forks - nrfbox"></a>
-
-   
-<h4>
-    <a href="https://twitter.com/techcifer">TWITTER</a>
-  <span> · </span>
-    <a href="https://www.instagram.com/cifertech/">INSTAGRAM</a>
-  <span> · </span>
-    <a href="https://www.youtube.com/@techcifer">YOUTUBE</a>
-  <span> · </span>
-    <a href="https://cifertech.net/">WEBSITE</a>
-  </h4>
+  <img src="Graphics/logo_neko_full.png" alt="logo" width="400" height="auto" />
 </div>
 <br/>
 
-## 📖 Explore the nRFBox Wiki
+This project is a fork of [Cifertech's nRFBox project](https://github.com/cifertech/nRFBox).
 
-Complete project story, in-depth tutorials, and all the features in [Wiki](https://github.com/cifertech/nRFBox/wiki)! From Wi-Fi deauthentication attacks to Sub-GHz signal replay, the Wiki covers everything you need to get started. [Click here to explore now!](https://github.com/cifertech/nRFBox/wiki)
-  
-<div>&nbsp;</div>
+My motivation on making this project relies on my curiosity to learn more about RF, WiFi, Bluetooth, BLE etc, also, my country banned the well known Flipper Zero, so it's impossible to get it here legally. I found this project of Cifer on Youtube days ago, from a shorts video he posted and I knew I should give it a try. I always wanted to create some project focused on Hacking, Pentest, but never actually had any idea on what to do. Now I'll be trying to create an entirely new project based on Cifer's nRFBox.
 
-<h2>🛠 Functionality Status and Reliability</h2>
+For this project I will keep the core features of the original project, but I wish to change the entire layout of the UI, add new functionalities and much more!
 
+> This README file shares some informations with the original project README.
+
+<h2>Functionality Status and Reliability</h2>
 <table>
   <thead>
     <tr>
@@ -87,25 +66,12 @@ Complete project story, in-depth tutorials, and all the features in [Wiki](https
 > - **Range Limitations**: The jammer is most effective at short range. Beyond a certain distance, the signal weakens, making it harder to consistently disrupt communication.
 > - **Device Variability**: Different devices react to jamming signals in varying ways. Some may be more resistant.
 
-
-
-<div>&nbsp;</div>
-
 <!-- About the Project -->
-## :star2: About the Project
-nRFBOX is a wireless toolkit designed to explore, analyze, and interact with various wireless communication protocols. It combines the ESP32 Wroom32U, NRF24 modules, an OLED display, and other components to create a multifunctional device that can act as a scanner, analyzer, jammer, BLE jammer, BLE spoofer, and perform advanced tasks such as the "Sour Apple" attack.
-
-
-
-<div align="center"> 
-  <img src="https://github.com/user-attachments/assets/1d49f15d-45be-4ed4-b92a-842d628c8695" alt="screenshot" width="Auto" height="Auto" />
-</div>
-
-
+## About the Project
+CTRL_FREAK is a wireless toolkit designed to explore, analyze, and interact with various wireless communication protocols. It combines the ESP32 Wroom32U, NRF24 modules, an OLED display, and other components to create a multifunctional device that can act as a scanner, analyzer, jammer, BLE jammer, BLE spoofer, and perform advanced tasks such as the "Sour Apple" attack.
 
 <!-- Features -->
 ### 🎯 Features
-
 - **Scanner** - Scans the 2.4GHz frequency band to detect active channels and devices.
 - **Analyzer** - Analyzes the detected signals and provides detailed information about the activity.
 - **Jammer** - Jams wireless communication on selected channels to test network robustness.
@@ -117,63 +83,29 @@ nRFBOX is a wireless toolkit designed to explore, analyze, and interact with var
 - **BLE Scanner** - List nearby Wi-Fi networks with extended details
 - **Wi-Fi Deauthentication Attack** - Send deauthentication frames to disrupt client connections
 
-> Explore the nRFBOX's features in detail at the [nRFBOX Wiki](https://github.com/cifertech/nRFBox/wiki/Features)! 
-
-
-<div>&nbsp;</div>
-
-<!-- nRFBOX V2 -->
-## :eyes: nRFBox Versions: Then and Now
-
-<table>
-  <tr>
-    <td style="text-align: center;">
-      <img src="https://github.com/user-attachments/assets/b121fe84-c789-409a-85f5-21f6d5854347" alt="nRFBOX V1" style="width: 400px; border: 1px solid #ccc; border-radius: 5px;">
-      <p style="font-style: italic; font-size: 14px; margin-top: 5px;">nRFBox-v1 based on Arduino</p>
-    </td>    
-    <td style="text-align: center;">
-      <img src="https://github.com/user-attachments/assets/a044ab5e-346c-415f-b1fb-f65aa04c520a" alt="nRFBOX V2" style="width: 400px; border: 1px solid #ccc; border-radius: 5px;">
-      <p style="font-style: italic; font-size: 14px; margin-top: 5px;">nRFBox-v2 based on ESP32</p>
-    </td>
-    </td>    
-    <td style="text-align: center;">
-      <img src="https://github.com/user-attachments/assets/bee71205-64b0-4f40-bf15-2675d3468bc1" alt="nRFBOX V3" style="width: 400px; border: 1px solid #ccc; border-radius: 5px;">
-      <p style="font-style: italic; font-size: 14px; margin-top: 5px;">nRFBox-v3 based on ESP32</p>
-    </td>
-  </tr>
-</table>
-
-
-<div>&nbsp;</div>
+### Future features
+- **Signal repeater** - Repeats any 2.4GHz signals captured.
+- **Online firmware updater** - Updates the firmware online, downloading it directly from the Internet.
 
 <!-- License -->
-## :warning: License
+## License
 
 Distributed under the MIT License. See LICENSE.txt for more information.
 
-<div>&nbsp;</div>
-
 <!-- Contact -->
-## :handshake: Contact
-
-▶ Support me on Patreon [patreon.com/cifertech](https://www.patreon.com/cifertech)
-
+## Contact
 CiferTech - [@twitter](https://twitter.com/techcifer) - CiferTech@gmali.com
 
 Project Link: [https://github.com/cifertech/nRFBOX](https://github.com/cifertech/nrfbox)
 
-<div>&nbsp;</div>
-
 <!-- Acknowledgments -->
-## :gem: Acknowledgements 
+## Acknowledgements 
 
-**The libraries and projects listed below are used in the nRFBox Project:**
+**The libraries and projects listed below are used in the CTRL_FREAK Project:**
+ - [Cifertech's nRFBox](https://github.com/cifertech/nRFBox)
  - [Poor Man’s 2.4 GHz Scanner](https://forum.arduino.cc/t/poor-mans-2-4-ghz-scanner/54846)
  - [arduino_oled_menu](https://github.com/upiir/arduino_oled_menu)
  - [nRF24L01-WiFi-Jammer](https://github.com/hugorezende/nRF24L01-WiFi-Jammer)
  - [Universal-RC-system](https://github.com/alexbeliaev/Universal-RC-system/tree/master)
  - [AppleJuice](https://github.com/ECTO-1A/AppleJuice)
  - [ESP32-Sour-Apple](https://github.com/RapierXbox/ESP32-Sour-Apple)
-
-**Community Contributors**: Thanks to everyone who helped improve nRFBox! Your support is much appreciated!
-
