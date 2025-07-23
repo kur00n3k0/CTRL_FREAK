@@ -99,12 +99,6 @@ CTRL_FREAK is a wireless toolkit designed to explore, analyze, and interact with
 
 Distributed under the MIT License. See LICENSE.txt for more information.
 
-<!-- Contact -->
-## Contact
-CiferTech - [@twitter](https://twitter.com/techcifer) - CiferTech@gmali.com
-
-Project Link: [https://github.com/cifertech/nRFBOX](https://github.com/cifertech/nrfbox)
-
 <!-- Acknowledgments -->
 ## Acknowledgements 
 
