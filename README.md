@@ -23,6 +23,12 @@ For this project I will keep the core features of the original project, but I wi
   </thead>
   <tbody>
     <tr>
+      <td><strong>Evil portal</strong></td>
+      <td>Development</td>
+      <td>High</td>
+      <td>Create an evil captive portal to get user credentials.</td>
+    </tr>
+    <tr>
       <td><strong>Scanner</strong></td>
       <td>Stable</td>
       <td>High</td>
@@ -72,6 +78,7 @@ CTRL_FREAK is a wireless toolkit designed to explore, analyze, and interact with
 
 <!-- Features -->
 ### 🎯 Features
+- **Evil portal** - Creates an rogue AP that redirects to a fake captive portal to extract user credentials.
 - **Scanner** - Scans the 2.4GHz frequency band to detect active channels and devices.
 - **Analyzer** - Analyzes the detected signals and provides detailed information about the activity.
 - **Jammer** - Jams wireless communication on selected channels to test network robustness.
