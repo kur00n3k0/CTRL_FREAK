@@ -10,31 +10,31 @@
 
 extern uint8_t oledBrightness;
 
-const int NUM_ITEMS = 12;
+const int NUM_ITEMS = 13;
 const int MAX_ITEM_LENGTH = 20;
 
 const unsigned char* bitmap_icons[NUM_ITEMS] = {
-  bitmap_icon_scanner, bitmap_icon_analyzer, bitmap_icon_jammer, bitmap_icon_kill,
+  bitmap_icon_evil_portal, bitmap_icon_scanner, bitmap_icon_analyzer, bitmap_icon_jammer, bitmap_icon_kill,
   bitmap_icon_ble_jammer, bitmap_icon_spoofer, bitmap_icon_apple, bitmap_icon_ble,
   bitmap_icon_wifi, bitmap_icon_wifi_jammer, bitmap_icon_about, 
   bitmap_icon_setting
 };
 
 char menu_items[NUM_ITEMS][MAX_ITEM_LENGTH] = {  
-  "Scanner", "Analyzer", "WLAN Jammer", "Proto Kill", "BLE Jammer",
+  "Evil Portal", "Scanner", "Analyzer", "WLAN Jammer", "Proto Kill", "BLE Jammer",
   "BLE Spoofer", "Sour Apple", "BLE Scan", "WiFi Scan", 
   "Deauther", "About", "Setting"
 };
 
 void (*menu_functions[NUM_ITEMS])() = {
-  Scanner::scannerSetup, Analyzer::analyzerSetup, Jammer::jammerSetup,
+  EvilPortal::captivePortalSetup, Scanner::scannerSetup, Analyzer::analyzerSetup, Jammer::jammerSetup,
   ProtoKill::blackoutSetup, BleJammer::blejammerSetup, Spoofer::spooferSetup,
   SourApple::sourappleSetup, BleScan::blescanSetup, WifiScan::wifiscanSetup, Deauther::deautherSetup,
   utils, Setting::settingSetup
 };
 
 void (*menu_loop_functions[NUM_ITEMS])() = {
-  Scanner::scannerLoop, Analyzer::analyzerLoop, Jammer::jammerLoop,
+  EvilPortal::captivePortalLoop, Scanner::scannerLoop, Analyzer::analyzerLoop, Jammer::jammerLoop,
   ProtoKill::blackoutLoop, BleJammer::blejammerLoop, Spoofer::spooferLoop,
   SourApple::sourappleLoop, BleScan::blescanLoop, WifiScan::wifiscanLoop, Deauther::deautherLoop,
   nullptr, Setting::settingLoop
@@ -50,8 +50,9 @@ void drawMenu() {
   u8g2.clearBuffer();
   if (current_screen != 0) return;
 
+  // Draws the upper bar with informations
   u8g2.setFont(u8g2_font_5x7_tf); 
-  u8g2.drawBox(0, 0, 128, 8); 
+  u8g2.drawBox(0, 0, 128, 8); // x, y, w, h
   u8g2.setDrawColor(0); 
   char versionStr[16];
   for (size_t i = 0; i < sizeof(txt_v); i++) {
@@ -64,9 +65,10 @@ void drawMenu() {
   Str(2, 7, txt_n, sizeof(txt_n));
   int version_width = u8g2.getUTF8Width(versionStr);
   Str(128 - version_width - 2, 7, txt_v, sizeof(txt_v));
-  u8g2.setDrawColor(1); 
+  u8g2.setDrawColor(1);
   u8g2.drawHLine(0, 8, 128); 
 
+  // Draw the icons
   const int icons_per_row = 3;
   const int icons_per_col = 2;
   const int max_display_items = icons_per_row * icons_per_col; 
@@ -101,11 +103,13 @@ void drawMenu() {
   u8g2.drawRFrame(highlight_x - 2, highlight_y - 2, 22, 22, 3); 
   u8g2.setDrawColor(1);
 
+  // Selection name
   u8g2.setFont(u8g2_font_5x8_tf); 
   int name_width = u8g2.getUTF8Width(menu_items[item_selected]);
   int name_x = (128 - name_width) / 2;
-  u8g2.drawStr(name_x, 64, menu_items[item_selected]); 
+  u8g2.drawStr(name_x, 64, menu_items[item_selected]);
 
+  // Scroll bar
   u8g2.drawFrame(124, 18, 4, 38); 
   int bar_height = 38 / total_rows;
   u8g2.drawBox(124, 18 + (bar_height * start_row), 4, bar_height); 

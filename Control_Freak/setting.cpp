@@ -94,7 +94,7 @@ void utils() {
 void conf() {
   u8g2.setBitmapMode(1);
   u8g2.clearBuffer();
-  CenteredStr(128, 25, txt_n, sizeof(txt_n), u8g2_font_ncenB14_tr);
+  CenteredStr(128, 25, txt_n, sizeof(txt_n), u8g2_font_ncenB12_tr);
   CenteredStr(106, 40, txt_c, sizeof(txt_c), u8g2_font_ncenB08_tr);
   CenteredStr(128, 60, txt_v, sizeof(txt_v), u8g2_font_6x10_tf);
   u8g2.sendBuffer();

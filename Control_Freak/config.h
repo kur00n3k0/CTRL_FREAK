@@ -63,6 +63,8 @@ Adafruit_NeoPixel pixels(1, 14, NEO_GRB + NEO_KHZ800);
 #include <esp_event.h>
 #include <nvs_flash.h>
 #include <string>
+#include <ESPAsyncWebServer.h>
+#include <DNSServer.h>
 
 // ESP-specific configurations
 #include <esp_bt.h>
@@ -123,6 +125,11 @@ namespace WifiScan {
 namespace Deauther {
   void deautherSetup();
   void deautherLoop();
+}
+
+namespace EvilPortal {
+  void captivePortalSetup();
+  void captivePortalLoop();
 }
 
 #endif // CONFIG_H

